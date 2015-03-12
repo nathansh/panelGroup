@@ -1,6 +1,6 @@
 # panelGroup
 
-panelGroup is a jQuery plugin for creating simple tabs and accordions. But here's the real kicker, you can turn your tabs _into_ accordions. The intended use of this feature is for responsive sites where tabs might become less usable at smaller screen sizes.
+panelGroup is an accessible jQuery plugin for creating simple tabs and accordions. But here's the real kicker, you can turn your tabs _into_ accordions. The intended use of this feature is for responsive sites where tabs might become less usable at smaller screen sizes.
 
 ## Use
 
