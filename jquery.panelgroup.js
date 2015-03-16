@@ -443,7 +443,7 @@
 				
 				var settings = $(that).data('panelGroup');
 
-				if ( $(that).data('groupType') == 'accordion' ) {
+				if ( $(that).data('groupType') == 'accordion' && $(that).data('tabsToAccordion') ) {
 
 					// Goodbye Accordion
 					pg.methods.destroyAccordion(that);
