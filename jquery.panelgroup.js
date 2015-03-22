@@ -29,8 +29,8 @@
 			onlyKeepOneOpen: true
 		},
 		//settings: false,
-		typeOptions: ['tab', 'accordion'],
-		typeDefault: 'tab',
+		typeOptions: ['tabs', 'accordion'],
+		typeDefault: 'tabs',
 		keycodes: {
 			left: 37,
 			up: 38,
@@ -64,7 +64,7 @@
 					var type = $(that).data('group-type');
 
 					// If the type set isn't valid use the default
-					if ( pg.typeOptions.indexOf(type) == '-1' ) {
+					if ( $.inArray(type, options) === -1 ) {
 						type = 'tabs';
 					}
 
