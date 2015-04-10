@@ -64,7 +64,7 @@
 					var type = $(that).data('group-type');
 
 					// If the type set isn't valid use the default
-					if ( $.inArray(type, options) === -1 ) {
+					if ( $.inArray(type, pg.typeOptions) === -1 ) {
 						type = 'tabs';
 					}
 
