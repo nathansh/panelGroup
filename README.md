@@ -54,14 +54,15 @@ selectors: { // customize the classes used in markup
     header: '.item-header',
     content: '.item-content'
   },
-flexTabNav: true, //Set to true to make tabs equal-width
-tabNavClasses: '', //get's added to tab nav <ul>
-tabItemsClasses: '', //get's added to tab-items div
-openTabTrigger: 'focus click', //event used to open the tab
-openAccordionTrigger: 'focus click', //event used to open the the accordion
+flexTabNav: true, // Set to true to make tabs equal-width
+htmlTab: false, // Allow a tab header to contain the full html of matched element, not just the text
+tabNavClasses: '', // get's added to tab nav <ul>
+tabItemsClasses: '', // get's added to tab-items div
+openTabTrigger: 'focus click', // event used to open the tab
+openAccordionTrigger: 'focus click', // event used to open the the accordion
 accordionSpeed: 300, // The animation speed of opening/collapsing accordion items
 firstAccordionOpen: true, // Whether or not the first accordion item should be open
-onlyKeepOneOpen: true //If Accordion should collapse all other '.active' items on open
+onlyKeepOneOpen: true // If Accordion should collapse all other '.active' items on open
 ```
 
 ## Methods for changing types (used for responsive)

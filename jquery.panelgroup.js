@@ -20,6 +20,7 @@
 				content: '.item-content'
 			},
 			flexTabNav: true,
+			htmlTab: false,
 			tabNavClasses: '',
 			tabItemsClasses: '',
 			accordionSpeed: 300,
@@ -94,20 +95,23 @@
 
 				// Header and items containers
 				var settings = $(that).data('panelGroup'),
-				    nav = $('<ul class="tab-nav" role="tablist">'),
+					nav = $('<ul class="tab-nav" role="tablist">'),
 					navWrapper = $('<div class="tab-nav-wrapper">'),
 					navTitle = $(that).data('tab-nav-title'),
-				    navItems = [],
-				    navItemsWidth,
-				    items,
-				    tabindex,
-				    ariaSelected,
-				    ariaHidden,
-				    tabHeaderText,
-				    tabID,
-				    panelID,
-				    randomNumber = Math.floor(Math.random() * 100000000),
-				    content = $('<div class="tab-items">').addClass(settings.tabItemsClasses);
+					navItems = [],
+					navItemsWidth,
+					items,
+					tabindex,
+					ariaSelected,
+					ariaHidden,
+					tabID,
+					tabClass,
+					panelID,
+					header,
+					headerItem,
+					headerContent,
+					randomNumber,
+					content = $('<div class="tab-items">').addClass(settings.tabItemsClasses);
 
 				//Update the current state
 				$(that).data('groupType', 'tabs');
@@ -124,18 +128,42 @@
 				// Iterate through each item and build the headers
 				that.find(settings.selectors.item).each(function(index) {
 
+					// Make big random number for IDs
+					randomNumber = Math.floor(Math.random() * 100000000);
+
+					// Cache the headers
+					header = $(this).find(settings.selectors.header);
+
+					// Create the header content
+					if ( settings.htmlTab ) {
+						headerContent = header.html();
+					} else {
+						headerContent = '<span>' + header.text() + '</span>';
+					}
+
 					// First one is tabindex and focused
 					tabindex = index == 0 ? '0' : '-1';
 					ariaSelected = index == 0 ? 'true' : 'false';
 					ariaHidden = index == 0 ? 'false' : 'true';
 
-					// Create an ID for the tab. This is needed for aria-controls
-					tabHeaderText = $(this).find(settings.selectors.header).text();
-					panelID = "panelGroup_panel-" + randomNumber + "-" + tabHeaderText.replace(/[^\w\s]/gi, '').replace(/[\s]/gi, '_').toLowerCase();
-					tabID = "panelGroup_tab-" + randomNumber + "-" + tabHeaderText.replace(/[^\w\s]/gi, '').replace(/[\s]/gi, '_').toLowerCase();
+					panelID = "panelGroup_panel-" + randomNumber;
+					tabID = "panelGroup_tab-" + randomNumber;
+					tabClass = header.attr('class');
 
 					// Header
-					navItems.push('<li><a href="#" data-tab-index="' + index + '" role="tab" tabindex="' + tabindex + '" aria-selected="' + ariaSelected + '" aria-controls="' + panelID + '" id="' + tabID + '"><span>' + tabHeaderText + '</span></a></li>');
+					headerItem = '<li>';
+					headerItem += '<a href="#"';
+						headerItem += ' data-tab-index="' + index + '"';
+						headerItem += ' role="tab" tabindex="' + tabindex + '"';
+						headerItem += ' aria-selected="' + ariaSelected + '"';
+						headerItem += ' aria-controls="' + panelID + '"';
+						headerItem += ' id="' + tabID + '"';
+						headerItem += ' class="' + tabClass + '"';
+					headerItem += '>';
+					headerItem += headerContent;
+					headerItem += '</a></li>';
+
+					navItems.push(headerItem);
 					$(this).find(settings.selectors.header).addClass('sr-only print-only');
 
 					// Content
@@ -161,42 +189,44 @@
 				//Add count class
 				nav.addClass('has-'+navItems.length);
 
-			// The functionality of tabs
+		  // The functionality of tabs
 
-				// Cache items, headers
-				items = that.find('.tab-items');
+			// Cache items, headers
+			items = that.find('.tab-items');
 
-				// Hide all but the first
-				items.find(settings.selectors.item).not('[data-tab-index=0]').hide();
-				nav.find('a').first().addClass('active');
+			// Hide all but the first
+			items.find(settings.selectors.item).not('[data-tab-index=0]').hide();
+			nav.find('a').first().addClass('active');
+			nav.find('a').first().addClass('active');
 
-				// Click handlers
-				nav.find('a').on(settings.openTabTrigger, function(event) {
+			// Click handlers
+			nav.find('a').on(settings.openTabTrigger, function(event) {
 
-					if ( ! $(this).is('.active') ) {
+				if ( ! $(this).is('.active') ) {
 
-						that.trigger('tabstart');
+				that.trigger('tabstart');
 
-						// Get item to show
-						var toShow = $(this).data('tab-index');
+				// Get item to show
+				var toShow = $(this).data('tab-index');
 
-						// Show item, hide others
-						items.find(settings.selectors.item).not('[data-tab-index=' + toShow + ']').hide().attr('aria-hidden', 'true');
-						items.find(settings.selectors.item+'[data-tab-index=' + toShow + ']').show().attr('aria-hidden', 'false');
+				// Show item, hide others
+				items.find(settings.selectors.item).not('[data-tab-index=' + toShow + ']').hide().attr('aria-hidden', 'true');
+				items.find(settings.selectors.item+'[data-tab-index=' + toShow + ']').show().attr('aria-hidden', 'false');
 
-						// Toggle active class
-						nav.find('.active').removeClass('active').attr({
-							'tabindex': '-1',
-							'aria-selected': 'false'
-						});
-						$(this).addClass('active').attr({
-							'tabindex': '0',
-							'aria-selected': 'true'
-						});
+				// Toggle active class
+				nav.find('.active').removeClass('active').attr({
+					'tabindex': '-1',
+					'aria-selected': 'false'
+				});
 
-						that.trigger('tabchange');
+				$(this).addClass('active').attr({
+					'tabindex': '0',
+					'aria-selected': 'true'
+				});
 
-					} // ! active
+				that.trigger('tabchange');
+
+			} // ! active
 
 					event.preventDefault();
 									
@@ -222,18 +252,18 @@
 
 		makeAccordion: function(that) {
 			var settings = that.data('panelGroup'),
-			    items = that.find(settings.selectors.item),
-			    activeItem,
-			    animating = false,
-			    accordionstartTriggered = false,
-			    headers,
-			    tabID,
-			    panelID,
-			    tabindex,
-			    ariaExpanded = 'false',
-			    ariaSelected = 'false',
-			    ariaHidden = 'true',
-			    randomNumber = Math.floor(Math.random() * 100000000);
+				items = that.find(settings.selectors.item),
+				activeItem,
+				animating = false,
+				accordionstartTriggered = false,
+				headers,
+				tabID,
+				panelID,
+				tabindex,
+				ariaExpanded = 'false',
+				ariaSelected = 'false',
+				ariaHidden = 'true',
+				randomNumber = Math.floor(Math.random() * 100000000);
 
 			that.addClass('accordion').attr({
 				'role': 'tablist',
@@ -317,8 +347,8 @@
 				} else {
 
 					var t = $(this),
-					    parent = that.find(settings.selectors.item).has(t),
-					    content = parent.find(settings.selectors.content);
+						parent = that.find(settings.selectors.item).has(t),
+						content = parent.find(settings.selectors.content);
 
 					// Expand or collapse depending on if you clicked an active item or not
 					if ( parent.is('.active') ) {
@@ -392,8 +422,8 @@
 				$(this).parents('.panel-group')
 							 .find('*[tabindex=0]')
 							 .attr({
-							 	'tabindex': '-1',
-							 	'aria-selected': 'false'
+								'tabindex': '-1',
+								'aria-selected': 'false'
 							 });
 				$(this).attr({
 					'tabindex': '0',
