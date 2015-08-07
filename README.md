@@ -58,6 +58,7 @@ flexTabNav: true, // Set to true to make tabs equal-width
 htmlTab: false, // Allow a tab header to contain the full html of matched element, not just the text
 tabNavClasses: '', // get's added to tab nav <ul>
 tabItemsClasses: '', // get's added to tab-items div
+tabNavAsList: true, // whether the tab nav should be a ul>li or flat div>a
 openTabTrigger: 'focus click', // event used to open the tab
 openAccordionTrigger: 'focus click', // event used to open the the accordion
 accordionSpeed: 300, // The animation speed of opening/collapsing accordion items

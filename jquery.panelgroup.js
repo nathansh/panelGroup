@@ -23,6 +23,7 @@
 			htmlTab: false,
 			tabNavClasses: '',
 			tabItemsClasses: '',
+			tabNavAsList: true,
 			accordionSpeed: 300,
 			openTabTrigger: 'click',
 			openAccordionTrigger: 'click',
@@ -95,7 +96,7 @@
 
 				// Header and items containers
 				var settings = $(that).data('panelGroup'),
-					nav = $('<ul class="tab-nav" role="tablist">'),
+					nav,
 					navWrapper = $('<div class="tab-nav-wrapper">'),
 					navTitle = $(that).data('tab-nav-title'),
 					navItems = [],
@@ -112,6 +113,12 @@
 					headerContent,
 					randomNumber,
 					content = $('<div class="tab-items">').addClass(settings.tabItemsClasses);
+
+				if ( settings.tabNavAsList ) {
+					nav = $('<ul class="tab-nav" role="tablist">');
+				} else {
+					nav = $('<div class="tab-nav" role="tablist">');
+				}
 
 				//Update the current state
 				$(that).data('groupType', 'tabs');
@@ -151,7 +158,11 @@
 					tabClass = header.attr('class');
 
 					// Header
-					headerItem = '<li>';
+					if ( settings.tabNavAsList ) {
+						headerItem = '<li>';
+					} else {
+						headerItem = '';
+					}
 					headerItem += '<a href="#"';
 						headerItem += ' data-tab-index="' + index + '"';
 						headerItem += ' role="tab" tabindex="' + tabindex + '"';
@@ -161,7 +172,10 @@
 						headerItem += ' class="' + tabClass + '"';
 					headerItem += '>';
 					headerItem += headerContent;
-					headerItem += '</a></li>';
+					headerItem += '</a>';
+					if ( settings.tabNavAsList ) {
+						headerItem += '</li>';
+					}
 
 					navItems.push(headerItem);
 					$(this).find(settings.selectors.header).addClass('sr-only print-only');
@@ -236,12 +250,20 @@
 						switch (e.keyCode) {
 							case pg.keycodes.left:
 							case pg.keycodes.up:
-								$(this).parent('li').prev('li').find('*[role=tab]').focus();
+								if ( settings.tabNavAsList ) {
+									$(this).parent('li').prev('li').find('*[role=tab]').focus();
+								} else {
+									$(this).prev('*[role=tab]').focus();
+								}
 								event.preventDefault();
 								break;
 							case pg.keycodes.down:
 							case pg.keycodes.right:
-								$(this).parent('li').next('li').find('*[role=tab]').focus();
+								if ( settings.tabNavAsList ) {
+									$(this).parent('li').next('li').find('*[role=tab]').focus();
+								} else  {
+									$(this).next('*[role=tab]').focus();
+								}
 								event.preventDefault();
 								break;
 						}
