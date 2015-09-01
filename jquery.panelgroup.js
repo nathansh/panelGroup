@@ -413,7 +413,6 @@
 											.end()
 											.find(settings.selectors.content)
 											.attr('aria-hidden', 'true');
-								temp.trigger('accordionchange');
 								accordionstartTriggered = false;
 							});
 						}
