@@ -246,7 +246,6 @@
 									
 				}).on('focus', function() {$(this).click()}) // a.click
 					.on('keydown', function(e){
-
 						switch (e.keyCode) {
 							case pg.keycodes.left:
 							case pg.keycodes.up:
@@ -259,6 +258,7 @@
 								break;
 							case pg.keycodes.down:
 							case pg.keycodes.right:
+
 								if ( settings.tabNavAsList ) {
 									$(this).parent('li').next('li').find('*[role=tab]').focus();
 								} else  {
