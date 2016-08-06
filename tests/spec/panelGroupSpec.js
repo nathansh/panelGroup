@@ -67,10 +67,7 @@
 
                 // Instantiate jQuery plugin
                 $('body').append(dummyMarkup);
-                var panelGroupElement = $('.panel-group').panelGroup();
-
-                // Add a class to test chaining
-                panelGroupElement.addClass('test-chainability');
+                var panelGroupElement = $('.panel-group').panelGroup().addClass('test-chainability');
 
                 expect(panelGroupElement.hasClass('test-chainability')).toBeTruthy();
 
