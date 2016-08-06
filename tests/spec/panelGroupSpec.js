@@ -11,9 +11,9 @@
 
         // Check if the markup has been put in the right order for accordions
         var contentFollowsHeader = element.find('.item.active')
-                                                    .find('.item-header')
-                                                    .next('div')
-                                                    .hasClass('item-content');
+                                          .find('.item-header')
+                                          .next('div')
+                                          .hasClass('item-content');
 
         return hasAccordionClass && contentFollowsHeader;
 
@@ -27,15 +27,14 @@
 
         // Check if the markup has been put in the right order for tabs
         var headersAreGrouped = element.find('.item-header.active')
-                                        .parent('li')
-                                        .next('li')
-                                        .find('a')
-                                        .hasClass('item-header');
+                                       .parent('li')
+                                       .next('li')
+                                       .find('a')
+                                       .hasClass('item-header');
 
         return hasAccordionClass && headersAreGrouped;
 
     }
-    
 
     /**
      * Actual Jasmine tests
@@ -114,8 +113,8 @@
                 var panelGroupElement = $('.panel-group').panelGroup();
 
                 var headerRole = panelGroupElement.find('.item-header')
-                                                .first()
-                                                .attr('role');
+                                                  .first()
+                                                  .attr('role');
 
                 expect(headerRole).toBe('tab');
 
@@ -127,9 +126,9 @@
                 var panelGroupElement = $('.panel-group').panelGroup();
 
                 var headerRole = panelGroupElement.find('.item-content')
-                                                .first()
-                                                .parent('div')
-                                                .attr('role');
+                                                  .first()
+                                                  .parent('div')
+                                                  .attr('role');
 
                 expect(headerRole).toBe('tabpanel');
 
@@ -154,9 +153,9 @@
                 var panelGroupElement = $('.panel-group').panelGroup();
 
                 var headerRole = panelGroupElement.find('.item-content')
-                                                .first()
-                                                .parent('div')
-                                                .attr('aria-labeledby');
+                                                  .first()
+                                                  .parent('div')
+                                                  .attr('aria-labeledby');
 
                 expect(headerRole).toBeTruthy();
 
@@ -168,8 +167,8 @@
                 var panelGroupElement = $('.panel-group').panelGroup();
 
                 var headerRole = panelGroupElement.find('.item-header.active')
-                                                .first()
-                                                .attr('aria-selected');
+                                                  .first()
+                                                  .attr('aria-selected');
 
                 expect(headerRole).toBeTruthy();
 
